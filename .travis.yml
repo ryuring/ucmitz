@@ -24,9 +24,9 @@ before_script:
     ";
   - cp config/app_local.example.php config/app_local.php
   - cp config/.env.example config/.env
-  - sed -i -e "s/\'host\' => \'bc5-db\'/\'host\' => \'localhost\'/g" config/app_local.php;
-  - sed -i -e "s/\'username\' => \'root\'/\'username\' => \'basercms\'/g" config/app_local.php;
-  - sed -i -e "s/\'password\' => \'root\'/\'password\' => \'basercms\'/g" config/app_local.php;
+  - sed -i -e "s/'host' => 'bc5-db'/'host' => 'localhost'/g" config/app_local.php;
+  - sed -i -e "s/'username' => 'root'/'username' => 'basercms'/g" config/app_local.php;
+  - sed -i -e "s/'password' => 'root'/'password' => 'basercms'/g" config/app_local.php;
   - cat config/app_local.php;
   - composer self-update;
   - composer install;
