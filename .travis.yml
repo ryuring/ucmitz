@@ -32,7 +32,10 @@ before_script:
   - cat config/app_local.php;
   - composer self-update;
   - composer install;
-
+  - echo "--------AUTOLOAD---------"
+  - cat vendor/composer/autoload_psr4.php
+  - echo "--------PLUGINS---------"
+  - cat cakephp-plugins.php
 script:
   - vendor/bin/phpunit
 
