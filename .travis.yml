@@ -2,8 +2,8 @@ language: php
 
 php:
   - 7.2
-#  - 7.3
-#  - 7.4
+  - 7.3
+  - 7.4
 
 dist: trusty
 
@@ -31,8 +31,6 @@ before_script:
   - sed -i -e "s/'password' => 'root'/'password' => 'basercms'/g" config/app_local.php;
   - composer self-update;
   - composer install;
-  - echo "--------PLUGINS---------"
-  - cat vendor/cakephp-plugins.php
 script:
   - vendor/bin/phpunit
 
