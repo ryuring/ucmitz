@@ -5,6 +5,7 @@
 /logs/*
 /tmp/*
 /vendor/*
+!/vendor/cakephp-plugins.php
 
 # OS generated files #
 ######################
