@@ -57,7 +57,7 @@ $this->BcListTable->setColumnNumber(5);
     <tbody>
     <?php if (!empty($userGroups)): ?>
         <?php foreach($userGroups as $userGroup): ?>
-            <?php $this->BcBaser->element('BcAdminThird.Admin/UserGroups/index_row', ['userGroup' => $userGroup]) ?>
+            <?php $this->BcBaser->element('Admin/UserGroups/index_row', ['userGroup' => $userGroup]) ?>
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
@@ -68,4 +68,4 @@ $this->BcListTable->setColumnNumber(5);
     </tbody>
 </table>
 
-<?php $this->BcBaser->element('BcAdminThird.Admin/list_num') ?>
+<?php $this->BcBaser->element('Admin/list_num') ?>
