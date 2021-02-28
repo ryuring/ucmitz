@@ -37,8 +37,8 @@ jobs:
       - name: Setup PostgreSQL
         if: ${{ matrix.db }} == 'pgsql'
         run: |
-          sed -i "" -e "s/MySQL::class/Postgres::class/g" config/app_local.php;
-          sed -i "" -e "s/bc5-db/bc5-pg/g" config/app_local.php;
+          sed -i -e "s/MySQL::class/Postgres::class/g" config/app_local.php
+          sed -i -e "s/bc5-db/bc5-pg/g" config/app_local.php
 
       - name: Run compose
         run: |
