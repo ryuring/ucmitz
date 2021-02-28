@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         php-version: ['7.3', '7.4']
+        db: [mysql, pgsql]
 
     steps:
 
@@ -32,6 +33,12 @@ jobs:
         run: |
           cp config/app_local.example.php config/app_local.php
           cp config/.env.example config/.env
+
+      - name: Setup PostgreSQL
+        if: matrix.db == 'pgsql'
+        run: |
+          sed -i -e "s/MySQL::class/Postgres::class/g" config/app_local.php
+          sed -i -e "s/bc5-db/bc5-pg/g" config/app_local.php
 
       - name: Run compose
         run: |

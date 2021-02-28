@@ -1,15 +1,15 @@
 version: '3'
 
-# volumes:
-#  db-volume: # windowsの場合はコメントを外す
+volumes: # データは Vagrant 上に永続化されるため、Vagrant を作り直すと消える
+  pg-data:
+  mysql-data:
 
 services:
   bc5-db:
     container_name: bc5-db
     image: mysql:5.7
     volumes:
-      - ./volumes/mysql:/var/lib/mysql
-      # - db-volume:/var/lib/mysql # windowsの場合はコメントを外し、上の行をコメントアウトする
+      - mysql-data:/var/lib/mysql
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
@@ -56,11 +56,12 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./volumes/postgres:/var/lib/postgres
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - pg-data:/var/lib/postgresql/data
+      - ./postgresql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+      POSTGRES_DB: basercms
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     restart: always
     user: root

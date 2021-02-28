@@ -36,6 +36,7 @@ return [
      */
     'Datasources' => [
         'default' => [
+            'driver' => Cake\Database\Driver\MySQL::class,
             'host' => 'bc5-db',
             /*
              * CakePHP will use the default DB port based on the driver selected
@@ -63,6 +64,7 @@ return [
          * The test connection is used during the test suite.
          */
         'test' => [
+            'driver' => Cake\Database\Driver\MySQL::class,
             'host' => 'bc5-db',
             //'port' => 'non_standard_port_number',
             'username' => 'root',
