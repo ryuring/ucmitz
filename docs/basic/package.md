@@ -3,6 +3,11 @@
 BaserApp を親パッケージとして、BaserCore、BcAdminThirdは、子パッケージとして管理します。  
 複数のパッケージを統合的に管理するためにモノレポ `monorepo-builder` を利用しています。
 
+- [BaserApp](https://github.com/baserproject/ucmitz) ：Gitでクローンした本体。親パッケージとしてbaserCMSのアプリケーションフレームを提供
+- [BaserCore](https://github.com/baserproject/ucmitz/tree/dev/plugins/baser-core) ：baserCMSの本体、子パッケージとして主にURLに紐づくルーティングと、ビジネスロジックを提供　`/plugins/baser-core`
+- [BcAdminThird](https://github.com/baserproject/ucmitz/tree/dev/plugins/bc-admin-third) ：子パッケージとして、baserCMSの画面表示をテーマとして提供　`/plugins/bc-admin-third`
+
+
 - [BaserApp ソースコード / baserproject/basercms:dev-5-cake3](https://github.com/baserproject/ucmitz/tree/dev)
 - [BaserCore ソースコード / baserproject/baser-core:dev-5-cake3](https://github.com/baserproject/baser-core/tree/dev-5-cake3)
 - [BcAdminThird ソースコード / baserproject/bc-admin-third:dev-5-cake3](https://github.com/baserproject/bc-admin-third/tree/dev-5-cake3)
@@ -39,3 +44,32 @@ baserCMS5 を開発中は、2　を利用して、開発中のコードを定期
 
 ## 参考文献
 [MonorepoBuilderでPHPのモノレポを作るチュートリアル](https://qiita.com/suin/items/421a55bdb009b2ada2d1)
+
+
+
+
+#　プログラムの構成
+
+## コアの構成
+
+### コアパッケージ
+baserCMSのコア（BaserCore）は、CakePHPのプラグインとしての開発を前提とし、plugins 配下内に配置する仕様とした。 `/plugins/baser-core/`
+
+### コアテーマ
+CakePHPのプラグインとしての開発を前提とし、plugins 配下内に配置する仕様とした。 `/plugins/bc-admin-third/`
+詳細については、[BcAdminThirdの開発](https://github.com/baserproject/ucmitz/blob/dev/plugins/bc-admin-third/README.md) を参考にする。
+
+なお、テーマの定義は、現在、`BaserCore\Controller\BcAdminAppController::beforeRender()` にて行っている。
+
+### プラグイン
+その他のプラグインも、plugins 配下内に配置する。
+コアパッケージ、コアテーマ以外のロードは、管理画面でプラグインをインストールする事で利用可能となる。
+
+## プラグインフォルダの命名
+
+コアパッケージ、コアテーマ、コアプラグインについては、ハイフン区切り（dasherize）とし、その他のプラグインについては、アッパーキャメルケースとする。
+```
+例）
+コア：baser-core / bc-admin-third / bc-blog
+その他：BcSample
+```
