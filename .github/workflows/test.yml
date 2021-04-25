@@ -40,11 +40,11 @@ jobs:
           sed -i -e "s/basercms:5-php7.4/basercms:5-php${{ matrix.php-version }}/g" docker-compose.yml;
           docker-compose up -d
 
-      - name: Sleep for 15 seconds
-        run: sleep 15
+      - name: Sleep for 10 seconds
+        run: sleep 10
 
       - name: Migration
-        run: bin/cake migrations migrate --plugin baser-core
+        run: docker exec bc5-php composer run-script migration
 
       - name: Run test suite
         run: docker exec bc5-php composer run-script test
