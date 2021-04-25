@@ -46,8 +46,5 @@ jobs:
       - name: Migration
         run: docker exec bc5-php composer run-script migration
 
-      - name: Sleep for 5 seconds
-        run: sleep 5
-
       - name: Run test suite
         run: docker exec bc5-php composer run-script test
