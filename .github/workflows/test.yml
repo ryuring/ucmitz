@@ -33,7 +33,7 @@ jobs:
         run: sleep 15
 
       - name: Docker log
-        run: docker logs
+        run: docker-compose logs
 
       - name: Run test suite
         run: docker exec bc5-php composer run-script test
