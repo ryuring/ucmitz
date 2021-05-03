@@ -32,8 +32,10 @@ jobs:
       - name: Sleep for 15 seconds
         run: sleep 15
 
-      - name: Docker log
-        run: docker-compose logs
+      - name: Compose log
+        run:  |
+          cd docker
+          docker-compose logs
 
       - name: Run test suite
         run: docker exec bc5-php composer run-script test
