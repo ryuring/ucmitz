@@ -22,17 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Install baserCMS
-        run: |
-          cp config/app_local.example.php config/app_local.php
-          cp config/.env.example config/.env
-
       - name: Run compose
         run: |
           cd docker
@@ -42,9 +31,6 @@ jobs:
 
       - name: Sleep for 10 seconds
         run: sleep 10
-
-      - name: Migration
-        run: docker exec bc5-php composer run-script migration
 
       - name: Run test suite
         run: docker exec bc5-php composer run-script test
