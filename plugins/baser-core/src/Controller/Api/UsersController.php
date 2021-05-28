@@ -12,7 +12,9 @@
 namespace BaserCore\Controller\Api;
 
 use BaserCore\Service\UsersServiceInterface;
+use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
+use Firebase\JWT\JWT;
 use BaserCore\Annotation\UnitTest;
 use BaserCore\Annotation\NoTodo;
 use BaserCore\Annotation\Checked;
@@ -26,6 +28,49 @@ use BaserCore\Annotation\Checked;
  */
 class UsersController extends BcApiController
 {
+
+    /**
+     * ログイン
+     */
+    public function login()
+    {
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            $user = $result->getData();
+            $payload = [
+                'iss' => Configure::read('Jwt.iss'),
+                'sub' => $user->id,
+                'exp' => time() + Configure::read('Jwt.expire'),
+            ];
+            $json = [
+                'token' => JWT::encode($payload, file_get_contents(Configure::read('Jwt.privateKeyPath')), Configure::read('Jwt.algorithm')),
+            ];
+        } else {
+            $this->response = $this->response->withStatus(401);
+            $json = [];
+        }
+        $this->set(compact('json'));
+        $this->viewBuilder()->setOption('serialize', 'json');
+    }
+
+    /**
+     * リフレッシュトークン取得
+     */
+    public function refresh_token()
+    {
+        $result = $this->Authentication->getResult();
+        $user = $result->getData();
+        $payload = [
+            'iss' => Configure::read('Jwt.iss'),
+            'sub' => $user->id,
+            'exp' => time() + Configure::read('Jwt.expire'),
+        ];
+        $json = [
+            'token' => JWT::encode($payload, file_get_contents(Configure::read('Jwt.privateKeyPath')), Configure::read('Jwt.algorithm')),
+        ];
+        $this->set(compact('json'));
+        $this->viewBuilder()->setOption('serialize', 'json');
+    }
 
     /**
      * ユーザー情報一覧取得
