@@ -11,9 +11,7 @@
 
 namespace BaserCore\Test\TestCase\TestSuite;
 
-use Cake\TestSuite\TestCase;
 use BaserCore\TestSuite\BcTestCase;
-use Cake\TestSuite\IntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
@@ -96,6 +94,15 @@ class BcTestCaseTest extends BcTestCase
         // session書かれているかテスト
         $this->assertSession($this->loginAdmin(1), Configure::read('BcPrefixAuth.Admin.sessionKey'));
         $this->assertSession($this->loginAdmin(2), Configure::read('BcPrefixAuth.Admin.sessionKey'));
+    }
+
+    /**
+     * test apiLoginAdmin
+     */
+    public function testApiLoginAdmin(): void
+    {
+        $this->assertNotEmpty($this->apiLoginAdmin(1));
+        $this->assertEmpty($this->apiLoginAdmin(100));
     }
 
 }
