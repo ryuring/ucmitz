@@ -209,6 +209,7 @@ class Plugin extends BcPlugin implements AuthenticationServiceProviderInterface
                     'resolver' => [
                         'className' => 'Authentication.Orm',
                         'userModel' => $authSetting['userModel'],
+                        'finder' => 'available'
                     ],
                     'contain' => 'UserGroups',
                 ]);
@@ -239,6 +240,7 @@ class Plugin extends BcPlugin implements AuthenticationServiceProviderInterface
                     'resolver' => [
                         'className' => 'Authentication.Orm',
                         'userModel' => $authSetting['userModel'],
+                        'finder' => 'available'
                     ],
                     'contain' => 'UserGroups',
                 ]);
