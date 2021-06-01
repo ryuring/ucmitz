@@ -59,7 +59,8 @@ class BcServiceProvider extends ServiceProvider
         $container->add(UserManageServiceInterface::class, UserManageService::class);
         $container->add(UserApiServiceInterface::class, UserApiService::class);
         // UserGroupsサービス
-        $container->add(UserGroupsServiceInterface::class, UserGroupsService::class);
-        $container->add(UserGroupManageServiceInterface::class, UserGroupManageService::class);
+        $container->add(UserGroupsServiceInterface::class, UserGroupsService::class, true);
+        $container->add(UserGroupManageServiceInterface::class, UserGroupManageService::class, true);
     }
+
 }
