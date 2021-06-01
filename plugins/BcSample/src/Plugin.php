@@ -16,7 +16,6 @@ use BaserCore\BcPlugin;
 use Cake\Core\Configure;
 use Cake\Routing\Route\InflectedRoute;
 use Cake\Routing\RouteBuilder;
-use Cake\Utility\Inflector;
 
 /**
  * plugin for BcSample
