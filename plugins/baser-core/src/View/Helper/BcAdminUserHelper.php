@@ -11,7 +11,7 @@
 
 namespace BaserCore\View\Helper;
 
-use BaserCore\Service\UserManageServiceInterface;
+use BaserCore\Service\Admin\UserManageServiceInterface;
 use BaserCore\Utility\BcContainerTrait;
 use Cake\View\Helper;
 use BaserCore\Annotation\UnitTest;
@@ -19,10 +19,10 @@ use BaserCore\Annotation\NoTodo;
 use BaserCore\Annotation\Checked;
 
 /**
- * Class BcUserManageHelper
+ * Class BcAdminUserHelper
  * @package BaserCore\View\Helper
  */
-class BcUserManageHelper extends Helper
+class BcAdminUserHelper extends Helper
 {
 
     use BcContainerTrait;
@@ -54,7 +54,7 @@ class BcUserManageHelper extends Helper
      * @noTodo
      * @unitTest
      */
-    public function isSelfUpdate(int $id)
+    public function isSelfUpdate(?int $id)
     {
         return $this->UserManage->isSelfUpdate($id);
     }
@@ -67,7 +67,7 @@ class BcUserManageHelper extends Helper
      * @noTodo
      * @unitTest
      */
-    public function isEditable(int $id)
+    public function isEditable(?int $id)
     {
         return $this->UserManage->isEditable($id);
     }

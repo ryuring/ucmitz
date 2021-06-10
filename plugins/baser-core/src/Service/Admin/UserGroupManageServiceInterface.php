@@ -9,11 +9,11 @@
  * @license       http://basercms.net/license/index.html MIT License
  */
 
-namespace BaserCore\Service;
+namespace BaserCore\Service\Admin;
 
 use Cake\Datasource\EntityInterface;
-use Cake\Http\ServerRequest;
 use Cake\ORM\Query;
+use BaserCore\Model\Entity\UserGroup;
 
 /**
  * Interface UserGroupsServiceInterface
@@ -29,6 +29,11 @@ interface UserGroupManageServiceInterface
     public function get($id): EntityInterface;
 
     /**
+     * ユーザーグループの新規データ用の初期値を含んだエンティティを取得する
+     * @return UserGroup
+     */
+    public function getNew(): UserGroup;
+    /**
      * ユーザーグループ全件取得する
      * @param array $options
      * @return Query
@@ -37,18 +42,18 @@ interface UserGroupManageServiceInterface
 
     /**
      * 新規登録する
-     * @param ServerRequest $request
+     * @param array $postData
      * @return EntityInterface|false
      */
-    public function create(ServerRequest $request);
+    public function create(array $postData);
 
     /**
      * 編集する
      * @param EntityInterface $target
-     * @param ServerRequest $request
+     * @param array $postData
      * @return mixed
      */
-    public function update(EntityInterface $target, ServerRequest $request);
+    public function update(EntityInterface $target, array $postData);
 
     /**
      * 削除する
@@ -56,4 +61,11 @@ interface UserGroupManageServiceInterface
      * @return mixed
      */
     public function delete(int $id);
+
+    /**
+     * 管理画面の一覧の表示件数を取得する
+     * @return mixed
+     */
+    public function getAdminListNum(): int;
+
 }

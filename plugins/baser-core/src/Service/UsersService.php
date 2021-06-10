@@ -103,7 +103,7 @@ class UsersService implements UsersServiceInterface
     /**
      * ユーザー登録
      * @param array $data
-     * @return \Cake\Datasource\EntityInterface|false
+     * @return \Cake\Datasource\EntityInterface
      * @checked
      * @noTodo
      * @unitTest
@@ -112,14 +112,14 @@ class UsersService implements UsersServiceInterface
     {
         $user = $this->Users->newEmptyEntity();
         $user = $this->Users->patchEntity($user, $postData, ['validate' => 'new']);
-        return $this->Users->save($user);
+        return ($result = $this->Users->save($user))? $result : $user;
     }
 
     /**
      * ユーザー情報を更新する
      * @param EntityInterface $target
      * @param array $postData
-     * @return EntityInterface|false
+     * @return EntityInterface
      * @checked
      * @noTodo
      * @unitTest
@@ -127,7 +127,7 @@ class UsersService implements UsersServiceInterface
     public function update(EntityInterface $target, array $postData)
     {
         $user = $this->Users->patchEntity($target, $postData);
-        return $this->Users->save($user);
+        return ($result = $this->Users->save($target))? $result : $user;
     }
 
     /**

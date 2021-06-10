@@ -42,13 +42,18 @@ class PluginsControllerTest extends BcTestCase
     ];
 
     /**
+     * PluginsController
+     * @var PluginsController
+     */
+    public $PluginsController;
+
+    /**
      * Set up
      */
     public function setUp(): void
     {
         parent::setUp();
-        $this->loginAdmin();
-        $this->PluginsController = new PluginsController($this->getRequest());
+        $this->PluginsController = new PluginsController($this->loginAdmin($this->getRequest()));
     }
 
     /**

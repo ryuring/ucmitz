@@ -11,7 +11,7 @@
 
 namespace BaserCore\Test\TestCase\Service;
 
-use BaserCore\Service\UserGroupManageService;
+use BaserCore\Service\Admin\UserGroupManageService;
 use BaserCore\TestSuite\BcTestCase;
 
 /**
@@ -62,6 +62,14 @@ class UserGroupManageServiceTest extends BcTestCase
     }
 
     /**
+     * Test getNew
+     */
+    public function testGetNew()
+    {
+        $this->assertEquals('Admin', $this->UserGroups->getNew()->auth_prefix);
+    }
+
+    /**
      * Test get
      */
     public function testGet()
@@ -81,19 +89,31 @@ class UserGroupManageServiceTest extends BcTestCase
 
     /**
      * Test create
+     * @dataProvider createDataProvider
      */
-    public function testCreate()
+    public function testCreate($authPrefix, $expected)
     {
-        $request = $this->getRequest('/');
         $data = [
             'name' => 'ucmitzGroup',
             'title' => 'ucmitzグループ',
             'use_move_contents' => '1',
+            'auth_prefix' => $authPrefix
         ];
-        $request = $request->withParsedBody($data);
-        $this->UserGroups->create($request);
+        $this->UserGroups->create($data);
         $group = $this->UserGroups->getIndex();
         $this->assertEquals($group->last()->name, $data['name']);
+        $this->assertEquals($group->last()->auth_prefix, $expected);
+    }
+    public function createDataProvider()
+    {
+        return [
+            // auth_prefixがすでにある場合
+            [['test'], 'test'],
+            // auth_prefixが複数ある場合
+            [['test1', 'test2'], 'test1,test2'],
+            // auth_prefixがない場合
+            [null, 'Admin'],
+        ];
     }
 
     /**
@@ -101,11 +121,9 @@ class UserGroupManageServiceTest extends BcTestCase
      */
     public function testUpdate()
     {
-        $request = $this->getRequest('/');
         $data = ['name' => 'ucmitzGroup'];
-        $request = $request->withParsedBody($data);
         $userGroup = $this->UserGroups->get(1);
-        $this->UserGroups->update($userGroup, $request);
+        $this->UserGroups->update($userGroup, $data);
         $group = $this->UserGroups->getIndex();
         $this->assertEquals($group->first()->name, $data['name']);
     }
