@@ -2506,6 +2506,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   /**
@@ -2527,14 +2545,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       user: [],
-      userGroups: []
+      userGroups: [],
+      hasInfoMessage: false
     };
   },
   mounted: function mounted() {
     this.$emit('setTitle', 'ユーザー編集');
 
     if (this.accessToken) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/baser/api/baser-core/users/view/1.json', {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/baser/api/baser-core/users/view/' + this.$route.params.id + '.json', {
         headers: {
           "Authorization": this.accessToken
         },
@@ -2544,12 +2563,28 @@ __webpack_require__.r(__webpack_exports__);
           this.user = response.data.user;
           this.userGroups = [];
           this.user.user_groups.forEach(function (v, i) {
-            this.userGroups = v.id;
+            this.userGroups.push(v.id);
           }.bind(this));
         }
       }.bind(this));
     } else {
       this.$router.push('/');
+    }
+  },
+  methods: {
+    save: function save() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
+        user: this.user
+      }, {
+        headers: {
+          "Authorization": this.accessToken
+        },
+        data: {}
+      }).then(function (response) {
+        if (response.data) {
+          this.hasInfoMessage = response.data.message;
+        }
+      }.bind(this));
     }
   }
 });
@@ -13677,6 +13712,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "section" }, [
+    _vm.hasInfoMessage
+      ? _c("div", { staticClass: "message-box", attrs: { id: "MessageBox" } }, [
+          _c(
+            "div",
+            {
+              staticClass: "message notice-message",
+              attrs: { id: "flashMessage" }
+            },
+            [_vm._v("\n            ユーザー情報を更新しました。\n        ")]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "table",
       { staticClass: "form-table bca-form-table", attrs: { id: "FormTable" } },
@@ -13834,6 +13882,14 @@ var render = function() {
             _vm._v(" "),
             _c("td", { staticClass: "col-input bca-form-table__input" }, [
               _c("span", { staticClass: "bca-checkbox-group" }, [
+                _c("input", {
+                  attrs: {
+                    type: "hidden",
+                    name: "user_groups[_ids]",
+                    value: ""
+                  }
+                }),
+                _vm._v(" "),
                 _c("span", { staticClass: "bca-checkbox" }, [
                   _c("input", {
                     directives: [
@@ -13993,10 +14049,120 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(6)
+          _c("tr", [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("small", [
+                _vm._v(
+                  "\n                    [パスワードは変更する場合のみ入力してください]"
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("input", {
+                staticStyle: {
+                  top: "-100px",
+                  left: "-100px",
+                  position: "fixed"
+                },
+                attrs: {
+                  type: "password",
+                  name: "dummy-pass",
+                  autocomplete: "off"
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.password_1,
+                      expression: "user.password_1"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "password",
+                    name: "password_1",
+                    size: "20",
+                    maxlength: "255",
+                    autocomplete: "off",
+                    id: "password-1"
+                  },
+                  domProps: { value: _vm.user.password_1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "password_1", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.password_2,
+                      expression: "user.password_2"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "password",
+                    name: "password_2",
+                    size: "20",
+                    maxlength: "255",
+                    autocomplete: "off",
+                    id: "password-2"
+                  },
+                  domProps: { value: _vm.user.password_2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "password_2", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
         ])
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "submit section bca-actions" }, [
+      _c("div", { staticClass: "bca-actions__main" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button bca-btn bca-actions__item",
+            attrs: {
+              "data-bca-btn-type": "save",
+              "data-bca-btn-size": "lg",
+              "data-bca-btn-width": "lg",
+              id: "BtnSave",
+              type: "submit"
+            },
+            on: {
+              click: function($event) {
+                return _vm.save()
+              }
+            }
+          },
+          [_vm._v("保存\n            ")]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -14098,52 +14264,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { staticClass: "col-head bca-form-table__label" }, [
-        _c("label", { attrs: { for: "password-1" } }, [_vm._v("パスワード")])
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "col-input bca-form-table__input" }, [
-        _c("small", [
-          _vm._v(
-            "\n                    [パスワードは変更する場合のみ入力してください]"
-          )
-        ]),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", {
-          staticStyle: { top: "-100px", left: "-100px", position: "fixed" },
-          attrs: { type: "password", name: "dummy-pass", autocomplete: "off" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "bca-textbox" }, [
-          _c("input", {
-            staticClass: "bca-textbox__input",
-            attrs: {
-              type: "password",
-              name: "password_1",
-              size: "20",
-              maxlength: "255",
-              autocomplete: "off",
-              id: "password-1"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "bca-textbox" }, [
-          _c("input", {
-            staticClass: "bca-textbox__input",
-            attrs: {
-              type: "password",
-              name: "password_2",
-              size: "20",
-              maxlength: "255",
-              autocomplete: "off",
-              id: "password-2"
-            }
-          })
-        ])
-      ])
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "password-1" } }, [_vm._v("パスワード")])
     ])
   }
 ]
@@ -26323,15 +26445,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************!*\
   !*** ./src/js/views/UserEdit.vue ***!
   \***********************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UserEdit_vue_vue_type_template_id_48190813___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserEdit.vue?vue&type=template&id=48190813& */ "./src/js/views/UserEdit.vue?vue&type=template&id=48190813&");
 /* harmony import */ var _UserEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserEdit.vue?vue&type=script&lang=js& */ "./src/js/views/UserEdit.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _UserEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _UserEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -26361,7 +26482,7 @@ component.options.__file = "src/js/views/UserEdit.vue"
 /*!************************************************************!*\
   !*** ./src/js/views/UserEdit.vue?vue&type=script&lang=js& ***!
   \************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
