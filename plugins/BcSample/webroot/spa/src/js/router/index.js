@@ -27,7 +27,7 @@ export default new Router({
             component: UserIndex
         },
         {
-            path: '/user_edit',
+            path: '/user_edit/:id',
             component: UserEdit
         }
     ]

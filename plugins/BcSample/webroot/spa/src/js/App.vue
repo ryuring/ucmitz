@@ -30,7 +30,7 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <router-link :to="{ path: 'user_edit' }">アカウント設定</router-link>
+                                        <router-link :to="{ path: '/user_edit' + '/' + loginId }">アカウント設定</router-link>
                                     </li>
                                     <li><a href="javascript:void(0)" @click="logout()">ログアウト</a></li>
                                 </ul>
