@@ -1,4 +1,3 @@
-<?php
 /**
  * baserCMS :  Based Website Development Project <https://basercms.net>
  * Copyright (c) baserCMS User Community <https://basercms.net/community/>
@@ -9,10 +8,13 @@
  * @license       http://basercms.net/license/index.html MIT License
  */
 
-$this->BcAdmin->setTitle('ログイン');
-?>
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
 
+Vue.config.productionTip = false
 
-<div id="app">
-  <App/>
-</div>
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount('#app')
