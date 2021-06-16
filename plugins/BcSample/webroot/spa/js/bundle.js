@@ -2524,6 +2524,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   /**
@@ -2546,9 +2547,16 @@ __webpack_require__.r(__webpack_exports__);
     return {
       user: [],
       userGroups: [],
-      hasInfoMessage: false
+      hasInfoMessage: false,
+      infoMessage: null,
+      isError_name: false,
+      errorMessage_name: ''
     };
   },
+
+  /**
+   * Mounted
+   */
   mounted: function mounted() {
     this.$emit('setTitle', 'ユーザー編集');
 
@@ -2571,18 +2579,37 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push('/');
     }
   },
+
+  /**
+   * Methods
+   */
   methods: {
+    /**
+     * Save
+     */
     save: function save() {
+      this.hasInfoMessage = false;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
         user: this.user
       }, {
         headers: {
           "Authorization": this.accessToken
-        },
-        data: {}
+        }
       }).then(function (response) {
         if (response.data) {
-          this.hasInfoMessage = response.data.message;
+          this.hasInfoMessage = true;
+          this.infoMessage = response.data.message;
+        }
+      }.bind(this))["catch"](function (error) {
+        if (error.response.status === 400) {
+          this.hasInfoMessage = true;
+          this.infoMessage = error.response.data.message;
+          var errors = error.response.data.errors;
+          Object.keys(errors).forEach(function (key) {
+            var error = errors[key];
+            this['isError_' + key] = true;
+            this['errorMessage_' + key] = error[Object.keys(error)[0]];
+          }.bind(this));
         }
       }.bind(this));
     }
@@ -13720,7 +13747,7 @@ var render = function() {
               staticClass: "message notice-message",
               attrs: { id: "flashMessage" }
             },
-            [_vm._v("\n            ユーザー情報を更新しました。\n        ")]
+            [_vm._v("\n            " + _vm._s(_vm.infoMessage) + "\n        ")]
           )
         ])
       : _vm._e(),
@@ -13766,7 +13793,13 @@ var render = function() {
                     }
                   }
                 })
-              ])
+              ]),
+              _vm._v(" "),
+              _vm.isError_name
+                ? _c("div", { staticClass: "error-message" }, [
+                    _vm._v(_vm._s(_vm.errorMessage_name))
+                  ])
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),

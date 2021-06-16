@@ -3,7 +3,7 @@
 
         <div id="MessageBox" class="message-box" v-if="hasInfoMessage">
             <div id="flashMessage" class="message notice-message">
-                ユーザー情報を更新しました。
+                {{infoMessage}}
             </div>
         </div>
 
@@ -22,6 +22,7 @@
                         <input type="text" name="name" size="20" maxlength="255"
                                autofocus="autofocus" class="bca-textbox__input"
                                required="required" id="name" v-model="user.name"></span>
+                        <div class="error-message" v-if="isError_name">{{errorMessage_name}}</div>
                 </td>
             </tr>
             <tr>
@@ -140,10 +141,16 @@ export default {
         return {
             user: [],
             userGroups: [],
-            hasInfoMessage: false
+            hasInfoMessage: false,
+            infoMessage: null,
+            isError_name: false,
+            errorMessage_name: ''
         }
     },
 
+    /**
+     * Mounted
+     */
     mounted() {
         this.$emit('setTitle', 'ユーザー編集')
         if (this.accessToken) {
@@ -164,19 +171,40 @@ export default {
         }
     },
 
+    /**
+     * Methods
+     */
     methods: {
+
+        /**
+         * Save
+         */
         save: function () {
+            this.hasInfoMessage = false;
             axios.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
                 user: this.user
             }, {
-                headers: {"Authorization": this.accessToken},
-                data: {}
+                headers: {"Authorization": this.accessToken}
             }).then(function (response) {
                 if (response.data) {
-                    this.hasInfoMessage = response.data.message
+                    this.hasInfoMessage = true;
+                    this.infoMessage = response.data.message
                 }
             }.bind(this))
+            .catch(function (error) {
+                if(error.response.status === 400) {
+                    this.hasInfoMessage = true;
+                    this.infoMessage = error.response.data.message;
+                    let errors = error.response.data.errors;
+                    Object.keys(errors).forEach(function (key) {
+                        let error = errors[key]
+                        this['isError_' + key] = true;
+                        this['errorMessage_' + key] = error[Object.keys(error)[0]];
+                    }.bind(this));
+                }
+            }.bind(this));
         }
     }
+
 }
 </script>
