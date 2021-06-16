@@ -2547,9 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       user: [],
       userGroups: [],
-      hasInfoMessage: false,
       infoMessage: null,
-      isError_name: false,
       errorMessage_name: ''
     };
   },
@@ -2588,9 +2586,17 @@ __webpack_require__.r(__webpack_exports__);
      * Save
      */
     save: function save() {
-      this.hasInfoMessage = false;
+      this.infoMessage = false;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
-        user: this.user
+        id: this.user.id,
+        name: this.user.name,
+        real_name_1: this.user.name,
+        real_name_2: this.user.real_name_2,
+        nickname: this.user.nickname,
+        user_groups: this.userGroups,
+        email: this.user.email,
+        password_1: this.user.password_1,
+        password_2: this.user.password_2
       }, {
         headers: {
           "Authorization": this.accessToken
@@ -2607,7 +2613,6 @@ __webpack_require__.r(__webpack_exports__);
           var errors = error.response.data.errors;
           Object.keys(errors).forEach(function (key) {
             var error = errors[key];
-            this['isError_' + key] = true;
             this['errorMessage_' + key] = error[Object.keys(error)[0]];
           }.bind(this));
         }
@@ -13739,7 +13744,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "section" }, [
-    _vm.hasInfoMessage
+    _vm.infoMessage
       ? _c("div", { staticClass: "message-box", attrs: { id: "MessageBox" } }, [
           _c(
             "div",
@@ -13795,7 +13800,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm.isError_name
+              _vm.errorMessage_name
                 ? _c("div", { staticClass: "error-message" }, [
                     _vm._v(_vm._s(_vm.errorMessage_name))
                   ])

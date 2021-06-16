@@ -1,7 +1,7 @@
 <template>
     <div class="section">
 
-        <div id="MessageBox" class="message-box" v-if="hasInfoMessage">
+        <div id="MessageBox" class="message-box" v-if="infoMessage">
             <div id="flashMessage" class="message notice-message">
                 {{infoMessage}}
             </div>
@@ -22,7 +22,7 @@
                         <input type="text" name="name" size="20" maxlength="255"
                                autofocus="autofocus" class="bca-textbox__input"
                                required="required" id="name" v-model="user.name"></span>
-                        <div class="error-message" v-if="isError_name">{{errorMessage_name}}</div>
+                        <div class="error-message" v-if="errorMessage_name">{{errorMessage_name}}</div>
                 </td>
             </tr>
             <tr>
@@ -141,9 +141,7 @@ export default {
         return {
             user: [],
             userGroups: [],
-            hasInfoMessage: false,
             infoMessage: null,
-            isError_name: false,
             errorMessage_name: ''
         }
     },
@@ -180,9 +178,17 @@ export default {
          * Save
          */
         save: function () {
-            this.hasInfoMessage = false;
+            this.infoMessage = false;
             axios.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
-                user: this.user
+                id: this.user.id,
+                name: this.user.name,
+                real_name_1: this.user.name,
+                real_name_2: this.user.real_name_2,
+                nickname: this.user.nickname,
+                user_groups: this.userGroups,
+                email: this.user.email,
+                password_1: this.user.password_1,
+                password_2: this.user.password_2,
             }, {
                 headers: {"Authorization": this.accessToken}
             }).then(function (response) {
@@ -198,7 +204,6 @@ export default {
                     let errors = error.response.data.errors;
                     Object.keys(errors).forEach(function (key) {
                         let error = errors[key]
-                        this['isError_' + key] = true;
                         this['errorMessage_' + key] = error[Object.keys(error)[0]];
                     }.bind(this));
                 }
