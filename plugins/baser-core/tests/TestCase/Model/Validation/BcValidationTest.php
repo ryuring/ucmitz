@@ -456,5 +456,4 @@ class BcValidationTest extends BcTestCase
     {
         $this->markTestIncomplete('このテストは、まだ実装されていません。');
     }
-
 }

@@ -18,7 +18,6 @@ use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Behavior\TimestampBehavior as TimestampBehaviorAlias;
 use Cake\Datasource\{EntityInterface, ResultSetInterface as ResultSetInterfaceAlias};
 use BaserCore\Model\AppTable;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use BaserCore\Model\Table\Exception\CopyFailedException;
 use BaserCore\Annotation\UnitTest;
@@ -45,7 +44,7 @@ use BaserCore\Annotation\Checked;
  * @mixin TimestampBehaviorAlias
  * @uses UserGroupsTable
  */
-class UserGroupsTable extends Table //TODO AppTableに変更必
+class UserGroupsTable extends AppTable 
 {
 
     /**
@@ -83,6 +82,7 @@ class UserGroupsTable extends Table //TODO AppTableに変更必
      * @param array $config The configuration for the Table.
      * @return void
      * @checked
+     * @noTodo
      * @unitTest
      */
     public function initialize(array $config): void
@@ -93,7 +93,6 @@ class UserGroupsTable extends Table //TODO AppTableに変更必
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
-        // $this->addBehavior('BcCache'); //TODO 未実装
         $this->belongsToMany('Users', [
             'className' => 'BaserCore.Users',
             'foreignKey' => 'user_group_id',

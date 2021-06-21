@@ -537,5 +537,4 @@ class BcValidation extends Validation
         }
         return true;
     }
-
 }
