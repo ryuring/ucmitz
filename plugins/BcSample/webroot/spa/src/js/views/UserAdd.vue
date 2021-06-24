@@ -1,6 +1,5 @@
 <template>
     <user-form :access-token="accessToken"
-        :user-id="$route.params.id"
         @set-message="function(message, isError) {$emit('set-message', message, isError)}"
         @clear-message="$emit('clear-message')" />
 </template>
@@ -14,7 +13,7 @@ export default {
     /**
      * Name
      */
-    name: 'UserEdit',
+    name: 'UserAdd',
 
     /**
      * Props
@@ -34,11 +33,11 @@ export default {
      * Mounted
      */
     mounted() {
-        this.$emit('setTitle', 'ユーザー編集')
+        this.$emit('setTitle', 'ユーザー登録')
         if (!this.accessToken) {
             this.$router.push('/')
         }
-    }
+    },
 
 }
 </script>

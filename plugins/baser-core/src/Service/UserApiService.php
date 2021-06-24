@@ -14,6 +14,9 @@ namespace BaserCore\Service;
 use Authentication\Authenticator\ResultInterface;
 use Cake\Core\Configure;
 use Firebase\JWT\JWT;
+use BaserCore\Annotation\UnitTest;
+use BaserCore\Annotation\NoTodo;
+use BaserCore\Annotation\Checked;
 
 /**
  * Class UserApiService
@@ -25,6 +28,9 @@ class UserApiService extends UsersService implements UserApiServiceInterface
      * ログイントークンを取得する
      * @param ResultInterface $result
      * @return array
+     * @checked
+     * @noTodo
+     * @unitTest
      */
     public function getLoginToken(ResultInterface $result): array
     {

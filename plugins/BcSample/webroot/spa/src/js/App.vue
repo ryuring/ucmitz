@@ -52,8 +52,12 @@
                         <h1 class="bca-main__header-title">{{ pageTitle }}</h1>
                     </div>
 
-                    <div id="BcMessageBox">
-                        <div id="BcSystemMessage" class="notice-message"></div>
+                    <div id="MessageBox" class="message-box" v-if="message">
+                        <div id="flashMessage"
+                            class="message"
+                            :class="{ 'alert-message' : isError, 'notice-message' : !isError }">
+                            {{message}}
+                        </div>
                     </div>
 
                     <div class="bca-main__contents clearfix">
@@ -63,6 +67,8 @@
                             @setLogin="setLogin"
                             @removeToken="removeToken"
                             @setTitle="setTitle"
+                            @set-message="setMessage"
+                            @clear-message="clearMessage"
                         >
                         </router-view>
                     </div>
@@ -111,7 +117,9 @@ export default {
             mount: false,
             pageTitle: '　',
             loginId: null,
-            loginName: null
+            loginName: null,
+            message: null,
+            isError: false
         }
     },
 
@@ -220,6 +228,16 @@ export default {
         logout: function () {
             this.$emit('removeToken');
             this.$router.push('/');
+        },
+
+        setMessage: function(message, isError) {
+            this.message = message
+            this.isError = isError
+        },
+
+        clearMessage: function() {
+            this.message = null
+            this.isError = false
         }
 
     }

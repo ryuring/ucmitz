@@ -2118,6 +2118,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   /**
@@ -2135,7 +2141,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       mount: false,
       pageTitle: '　',
       loginId: null,
-      loginName: null
+      loginName: null,
+      message: null,
+      isError: false
     };
   },
 
@@ -2270,6 +2278,332 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     logout: function logout() {
       this.$emit('removeToken');
       this.$router.push('/');
+    },
+    setMessage: function setMessage(message, isError) {
+      this.message = message;
+      this.isError = isError;
+    },
+    clearMessage: function clearMessage() {
+      this.message = null;
+      this.isError = false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/js/components/UserForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/js/components/UserForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Name
+   */
+  name: 'UserForm',
+
+  /**
+   * Props
+   */
+  props: {
+    userId: String,
+    accessToken: String
+  },
+
+  /**
+   * Data
+   * @returns {{users: null}}
+   */
+  data: function data() {
+    return {
+      user: [],
+      userGroups: [],
+      errors: []
+    };
+  },
+
+  /**
+   * Mounted
+   */
+  mounted: function mounted() {
+    if (this.accessToken) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/baser/api/baser-core/user_groups/list.json', {
+        headers: {
+          "Authorization": this.accessToken
+        }
+      }).then(function (response) {
+        if (response.data.userGroups) {
+          this.userGroups = response.data.userGroups;
+        }
+      }.bind(this));
+    }
+
+    this.load(this.userId);
+  },
+  methods: {
+    load: function load(id) {
+      if (id) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/baser/api/baser-core/users/view/' + id + '.json', {
+          headers: {
+            "Authorization": this.accessToken
+          }
+        }).then(function (response) {
+          if (response.data.user) {
+            this.user = response.data.user;
+            var userGroups = [];
+            this.user.user_groups.forEach(function (userGroup) {
+              userGroups.push(userGroup.id);
+            }.bind(this));
+            this.user.user_groups = userGroups;
+          }
+        }.bind(this));
+      } else {
+        this.user = {
+          name: '',
+          real_name_1: '',
+          real_name_2: '',
+          nickname: '',
+          user_groups: [1],
+          email: '',
+          password_1: '',
+          password_2: ''
+        };
+      }
+    },
+
+    /**
+     * Save
+     */
+    save: function save(id) {
+      this.$emit('clear-message');
+      this.errors = [];
+      var endPoint = '/baser/api/baser-core/users/';
+      var user = {
+        name: this.user.name,
+        real_name_1: this.user.name,
+        real_name_2: this.user.real_name_2,
+        nickname: this.user.nickname,
+        user_groups: {
+          _ids: this.user.user_groups
+        },
+        email: this.user.email,
+        password_1: this.user.password_1,
+        password_2: this.user.password_2
+      };
+
+      if (id) {
+        endPoint += 'edit/' + id + '.json';
+        user.id = id;
+      } else {
+        endPoint += 'add.json';
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(endPoint, user, {
+        headers: {
+          "Authorization": this.accessToken
+        }
+      }).then(function (response) {
+        if (response.data) {
+          this.$emit('set-message', response.data.message, false);
+
+          if (!id) {
+            this.$router.push('/user_edit/' + response.data.user.id);
+          }
+        }
+      }.bind(this))["catch"](function (error) {
+        if (error.response.status === 400) {
+          this.$emit('set-message', error.response.data.message, true);
+          this.errors = error.response.data.errors;
+        }
+      }.bind(this));
     }
   }
 });
@@ -2397,6 +2731,57 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserAdd.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/js/views/UserAdd.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_UserForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/UserForm.vue */ "./src/js/components/UserForm.vue");
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /**
+   * Name
+   */
+  name: 'UserAdd',
+
+  /**
+   * Props
+   */
+  props: {
+    accessToken: String
+  },
+
+  /**
+   * Components
+   */
+  components: {
+    UserForm: _components_UserForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+
+  /**
+   * Mounted
+   */
+  mounted: function mounted() {
+    this.$emit('setTitle', 'ユーザー登録');
+
+    if (!this.accessToken) {
+      this.$router.push('/');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserEdit.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/js/views/UserEdit.vue?vue&type=script&lang=js& ***!
@@ -2406,118 +2791,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _components_UserForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/UserForm.vue */ "./src/js/components/UserForm.vue");
 //
 //
 //
@@ -2530,7 +2804,7 @@ __webpack_require__.r(__webpack_exports__);
   /**
    * Name
    */
-  name: 'Login',
+  name: 'UserEdit',
 
   /**
    * Props
@@ -2540,16 +2814,10 @@ __webpack_require__.r(__webpack_exports__);
   },
 
   /**
-   * Data
-   * @returns {{users: null}}
+   * Components
    */
-  data: function data() {
-    return {
-      user: [],
-      userGroups: [],
-      infoMessage: null,
-      errorMessage_name: ''
-    };
+  components: {
+    UserForm: _components_UserForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
 
   /**
@@ -2558,65 +2826,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.$emit('setTitle', 'ユーザー編集');
 
-    if (this.accessToken) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/baser/api/baser-core/users/view/' + this.$route.params.id + '.json', {
-        headers: {
-          "Authorization": this.accessToken
-        },
-        data: {}
-      }).then(function (response) {
-        if (response.data.user) {
-          this.user = response.data.user;
-          this.userGroups = [];
-          this.user.user_groups.forEach(function (v, i) {
-            this.userGroups.push(v.id);
-          }.bind(this));
-        }
-      }.bind(this));
-    } else {
+    if (!this.accessToken) {
       this.$router.push('/');
-    }
-  },
-
-  /**
-   * Methods
-   */
-  methods: {
-    /**
-     * Save
-     */
-    save: function save() {
-      this.infoMessage = false;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/baser/api/baser-core/users/edit/' + this.$route.params.id + '.json', {
-        id: this.user.id,
-        name: this.user.name,
-        real_name_1: this.user.name,
-        real_name_2: this.user.real_name_2,
-        nickname: this.user.nickname,
-        user_groups: this.userGroups,
-        email: this.user.email,
-        password_1: this.user.password_1,
-        password_2: this.user.password_2
-      }, {
-        headers: {
-          "Authorization": this.accessToken
-        }
-      }).then(function (response) {
-        if (response.data) {
-          this.hasInfoMessage = true;
-          this.infoMessage = response.data.message;
-        }
-      }.bind(this))["catch"](function (error) {
-        if (error.response.status === 400) {
-          this.hasInfoMessage = true;
-          this.infoMessage = error.response.data.message;
-          var errors = error.response.data.errors;
-          Object.keys(errors).forEach(function (key) {
-            var error = errors[key];
-            this['errorMessage_' + key] = error[Object.keys(error)[0]];
-          }.bind(this));
-        }
-      }.bind(this));
     }
   }
 });
@@ -13465,7 +13676,32 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(2),
+            _vm.message
+              ? _c(
+                  "div",
+                  { staticClass: "message-box", attrs: { id: "MessageBox" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "message",
+                        class: {
+                          "alert-message": _vm.isError,
+                          "notice-message": !_vm.isError
+                        },
+                        attrs: { id: "flashMessage" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.message) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  ]
+                )
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "div",
@@ -13477,7 +13713,9 @@ var render = function() {
                       on: {
                         setLogin: _vm.setLogin,
                         removeToken: _vm.removeToken,
-                        setTitle: _vm.setTitle
+                        setTitle: _vm.setTitle,
+                        "set-message": _vm.setMessage,
+                        "clear-message": _vm.clearMessage
                       }
                     })
                   : _vm._e()
@@ -13489,7 +13727,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(3)
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -13529,17 +13767,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "BcMessageBox" } }, [
-      _c("div", {
-        staticClass: "notice-message",
-        attrs: { id: "BcSystemMessage" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -13570,6 +13797,605 @@ var staticRenderFns = [
         ])
       ]
     )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a&":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a& ***!
+  \*****************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "UserForm" } }, [
+    _c(
+      "table",
+      { staticClass: "form-table bca-form-table", attrs: { id: "FormTable" } },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.user.id) + "\n            "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.name,
+                      expression: "user.name"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "text",
+                    name: "name",
+                    size: "20",
+                    maxlength: "255",
+                    autofocus: "autofocus",
+                    required: "required",
+                    id: "name"
+                  },
+                  domProps: { value: _vm.user.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "name", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.name
+                ? _c("div", { staticClass: "error-wrap" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors.name, function(message) {
+                        return _c("li", { staticClass: "error-message" }, [
+                          _vm._v(_vm._s(message))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("small", [_vm._v("[姓]")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.real_name_1,
+                      expression: "user.real_name_1"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "text",
+                    name: "real_name_1",
+                    size: "12",
+                    maxlength: "255",
+                    required: "required",
+                    id: "real-name-1"
+                  },
+                  domProps: { value: _vm.user.real_name_1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "real_name_1", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", [_vm._v("[名]")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.real_name_2,
+                      expression: "user.real_name_2"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "text",
+                    name: "real_name_2",
+                    size: "12",
+                    maxlength: "255",
+                    id: "real-name-2"
+                  },
+                  domProps: { value: _vm.user.real_name_2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "real_name_2", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.real_name_1
+                ? _c("div", { staticClass: "error-wrap" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors.real_name_1, function(message) {
+                        return _c("li", { staticClass: "error-message" }, [
+                          _vm._v(_vm._s(message))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.nickname,
+                      expression: "user.nickname"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "text",
+                    name: "nickname",
+                    size: "40",
+                    maxlength: "255",
+                    id: "nickname"
+                  },
+                  domProps: { value: _vm.user.nickname },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "nickname", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c(
+                "span",
+                { staticClass: "bca-checkbox-group" },
+                [
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "user_groups[_ids]",
+                      value: ""
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(this.userGroups, function(title, id) {
+                    return _c("span", { staticClass: "bca-checkbox" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.user_groups,
+                            expression: "user.user_groups"
+                          }
+                        ],
+                        staticClass: "bca-checkbox__input",
+                        attrs: {
+                          type: "checkbox",
+                          name: "user_groups[_ids][]",
+                          id: "user-groups-ids-" + id
+                        },
+                        domProps: {
+                          value: id,
+                          checked: Array.isArray(_vm.user.user_groups)
+                            ? _vm._i(_vm.user.user_groups, id) > -1
+                            : _vm.user.user_groups
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.user.user_groups,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.user,
+                                    "user_groups",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.user,
+                                    "user_groups",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.user, "user_groups", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "bca-checkbox__label",
+                          attrs: { for: "user-groups-ids-" + id }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(title) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm.errors.user_groups
+                ? _c("div", { staticClass: "error-wrap" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors.user_groups, function(message) {
+                        return _c("li", { staticClass: "error-message" }, [
+                          _vm._v(_vm._s(message))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("input", {
+                staticStyle: {
+                  top: "-100px",
+                  left: "-100px",
+                  position: "fixed"
+                },
+                attrs: { type: "text", name: "dummy-email" }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.email,
+                      expression: "user.email"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "text",
+                    name: "email",
+                    size: "40",
+                    maxlength: "255",
+                    required: "required",
+                    id: "email"
+                  },
+                  domProps: { value: _vm.user.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "email", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.email
+                ? _c("div", { staticClass: "error-wrap" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors.email, function(message) {
+                        return _c("li", { staticClass: "error-message" }, [
+                          _vm._v(_vm._s(message))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("td", { staticClass: "col-input bca-form-table__input" }, [
+              _c("small", [
+                _vm._v(
+                  "\n                    [パスワードは変更する場合のみ入力してください]"
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("input", {
+                staticStyle: {
+                  top: "-100px",
+                  left: "-100px",
+                  position: "fixed"
+                },
+                attrs: {
+                  type: "password",
+                  name: "dummy-pass",
+                  autocomplete: "off"
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.password_1,
+                      expression: "user.password_1"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "password",
+                    name: "password_1",
+                    size: "20",
+                    maxlength: "255",
+                    autocomplete: "off",
+                    id: "password-1"
+                  },
+                  domProps: { value: _vm.user.password_1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "password_1", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "bca-textbox" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.password_2,
+                      expression: "user.password_2"
+                    }
+                  ],
+                  staticClass: "bca-textbox__input",
+                  attrs: {
+                    type: "password",
+                    name: "password_2",
+                    size: "20",
+                    maxlength: "255",
+                    autocomplete: "off",
+                    id: "password-2"
+                  },
+                  domProps: { value: _vm.user.password_2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "password_2", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.password
+                ? _c("div", { staticClass: "error-wrap" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors.password, function(message) {
+                        return _c("li", { staticClass: "error-message" }, [
+                          _vm._v(_vm._s(message))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "submit section bca-actions" }, [
+      _c("div", { staticClass: "bca-actions__main" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button bca-btn bca-actions__item",
+            attrs: {
+              "data-bca-btn-type": "save",
+              "data-bca-btn-size": "lg",
+              "data-bca-btn-width": "lg",
+              id: "BtnSave",
+              type: "submit"
+            },
+            on: {
+              click: function($event) {
+                return _vm.save(_vm.userId)
+              }
+            }
+          },
+          [_vm._v("\n                保存\n            ")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "id" } }, [_vm._v("No")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "name" } }, [_vm._v("アカウント名")]),
+      _vm._v("  \n                "),
+      _c(
+        "span",
+        {
+          staticClass: "bca-label",
+          attrs: { "data-bca-label-type": "required" }
+        },
+        [_vm._v("必須")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "real-name-1" } }, [_vm._v("名前")]),
+      _vm._v("  \n                "),
+      _c(
+        "span",
+        {
+          staticClass: "bca-label",
+          attrs: { "data-bca-label-type": "required" }
+        },
+        [_vm._v("必須")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "nickname" } }, [_vm._v("ニックネーム")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", [_vm._v("グループ")]),
+      _vm._v("  \n                "),
+      _c(
+        "span",
+        {
+          staticClass: "bca-label",
+          attrs: { "data-bca-label-type": "required" }
+        },
+        [_vm._v("必須")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "email" } }, [_vm._v("Eメール")]),
+      _vm._v("  \n                "),
+      _c(
+        "span",
+        {
+          staticClass: "bca-label",
+          attrs: { "data-bca-label-type": "required" }
+        },
+        [_vm._v("必須")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
+      _c("label", { attrs: { for: "password-1" } }, [_vm._v("パスワード")])
+    ])
   }
 ]
 render._withStripped = true
@@ -13728,6 +14554,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("user-form", {
+    attrs: { "access-token": _vm.accessToken },
+    on: {
+      "set-message": function(message, isError) {
+        _vm.$emit("set-message", message, isError)
+      },
+      "clear-message": function($event) {
+        return _vm.$emit("clear-message")
+      }
+    }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserEdit.vue?vue&type=template&id=48190813&":
 /*!************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/js/views/UserEdit.vue?vue&type=template&id=48190813& ***!
@@ -13743,570 +14603,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "section" }, [
-    _vm.infoMessage
-      ? _c("div", { staticClass: "message-box", attrs: { id: "MessageBox" } }, [
-          _c(
-            "div",
-            {
-              staticClass: "message notice-message",
-              attrs: { id: "flashMessage" }
-            },
-            [_vm._v("\n            " + _vm._s(_vm.infoMessage) + "\n        ")]
-          )
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "table",
-      { staticClass: "form-table bca-form-table", attrs: { id: "FormTable" } },
-      [
-        _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.name,
-                      expression: "user.name"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "text",
-                    name: "name",
-                    size: "20",
-                    maxlength: "255",
-                    autofocus: "autofocus",
-                    required: "required",
-                    id: "name"
-                  },
-                  domProps: { value: _vm.user.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "name", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errorMessage_name
-                ? _c("div", { staticClass: "error-message" }, [
-                    _vm._v(_vm._s(_vm.errorMessage_name))
-                  ])
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(2),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("small", [_vm._v("[姓 ]")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.real_name_1,
-                      expression: "user.real_name_1"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "text",
-                    name: "real_name_1",
-                    size: "12",
-                    maxlength: "255",
-                    required: "required",
-                    id: "real-name-1"
-                  },
-                  domProps: { value: _vm.user.real_name_1 },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "real_name_1", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("small", [_vm._v("[名 ]")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.real_name_2,
-                      expression: "user.real_name_2"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "text",
-                    name: "real_name_2",
-                    size: "12",
-                    maxlength: "255",
-                    id: "real-name-2"
-                  },
-                  domProps: { value: _vm.user.real_name_2 },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "real_name_2", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(3),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.nickname,
-                      expression: "user.nickname"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "text",
-                    name: "nickname",
-                    size: "40",
-                    maxlength: "255",
-                    id: "nickname"
-                  },
-                  domProps: { value: _vm.user.nickname },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "nickname", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(4),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("span", { staticClass: "bca-checkbox-group" }, [
-                _c("input", {
-                  attrs: {
-                    type: "hidden",
-                    name: "user_groups[_ids]",
-                    value: ""
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "bca-checkbox" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.userGroups,
-                        expression: "userGroups"
-                      }
-                    ],
-                    staticClass: "bca-checkbox__input",
-                    attrs: {
-                      type: "checkbox",
-                      name: "user_groups[_ids][]",
-                      value: "1",
-                      id: "user-groups-ids-1"
-                    },
-                    domProps: {
-                      checked: Array.isArray(_vm.userGroups)
-                        ? _vm._i(_vm.userGroups, "1") > -1
-                        : _vm.userGroups
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.userGroups,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = "1",
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.userGroups = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.userGroups = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
-                        } else {
-                          _vm.userGroups = $$c
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "bca-checkbox__label",
-                      attrs: { for: "user-groups-ids-1" }
-                    },
-                    [_vm._v("システム管理")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "bca-checkbox" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.userGroups,
-                        expression: "userGroups"
-                      }
-                    ],
-                    staticClass: "bca-checkbox__input",
-                    attrs: {
-                      type: "checkbox",
-                      name: "user_groups[_ids][]",
-                      value: "2",
-                      id: "user-groups-ids-2"
-                    },
-                    domProps: {
-                      checked: Array.isArray(_vm.userGroups)
-                        ? _vm._i(_vm.userGroups, "2") > -1
-                        : _vm.userGroups
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.userGroups,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = "2",
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.userGroups = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.userGroups = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
-                        } else {
-                          _vm.userGroups = $$c
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "bca-checkbox__label",
-                      attrs: { for: "user-groups-ids-2" }
-                    },
-                    [_vm._v("サイト運営")]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(5),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("input", {
-                staticStyle: {
-                  top: "-100px",
-                  left: "-100px",
-                  position: "fixed"
-                },
-                attrs: { type: "text", name: "dummy-email" }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "text",
-                    name: "email",
-                    size: "40",
-                    maxlength: "255",
-                    required: "required",
-                    id: "email"
-                  },
-                  domProps: { value: _vm.user.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "email", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(6),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-input bca-form-table__input" }, [
-              _c("small", [
-                _vm._v(
-                  "\n                    [パスワードは変更する場合のみ入力してください]"
-                )
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("input", {
-                staticStyle: {
-                  top: "-100px",
-                  left: "-100px",
-                  position: "fixed"
-                },
-                attrs: {
-                  type: "password",
-                  name: "dummy-pass",
-                  autocomplete: "off"
-                }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password_1,
-                      expression: "user.password_1"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "password",
-                    name: "password_1",
-                    size: "20",
-                    maxlength: "255",
-                    autocomplete: "off",
-                    id: "password-1"
-                  },
-                  domProps: { value: _vm.user.password_1 },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "password_1", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "bca-textbox" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password_2,
-                      expression: "user.password_2"
-                    }
-                  ],
-                  staticClass: "bca-textbox__input",
-                  attrs: {
-                    type: "password",
-                    name: "password_2",
-                    size: "20",
-                    maxlength: "255",
-                    autocomplete: "off",
-                    id: "password-2"
-                  },
-                  domProps: { value: _vm.user.password_2 },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "password_2", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "submit section bca-actions" }, [
-      _c("div", { staticClass: "bca-actions__main" }, [
-        _c(
-          "button",
-          {
-            staticClass: "button bca-btn bca-actions__item",
-            attrs: {
-              "data-bca-btn-type": "save",
-              "data-bca-btn-size": "lg",
-              "data-bca-btn-width": "lg",
-              id: "BtnSave",
-              type: "submit"
-            },
-            on: {
-              click: function($event) {
-                return _vm.save()
-              }
-            }
-          },
-          [_vm._v("保存\n            ")]
-        )
-      ])
-    ])
-  ])
+  return _c("user-form", {
+    attrs: { "access-token": _vm.accessToken, "user-id": _vm.$route.params.id },
+    on: {
+      "set-message": function(message, isError) {
+        _vm.$emit("set-message", message, isError)
+      },
+      "clear-message": function($event) {
+        return _vm.$emit("clear-message")
+      }
+    }
+  })
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { staticClass: "col-head bca-form-table__label" }, [
-        _c("label", { attrs: { for: "id" } }, [_vm._v("No")])
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "col-input bca-form-table__input" }, [
-        _vm._v("\n                1 "),
-        _c("input", {
-          staticClass: "bca-hidden__input",
-          attrs: { type: "hidden", name: "id", id: "id", value: "1" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", { attrs: { for: "name" } }, [_vm._v("アカウント名")]),
-      _vm._v("  "),
-      _c(
-        "span",
-        {
-          staticClass: "bca-label",
-          attrs: { "data-bca-label-type": "required" }
-        },
-        [_vm._v("必須")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", { attrs: { for: "real-name-1" } }, [_vm._v("名前")]),
-      _vm._v("  "),
-      _c(
-        "span",
-        {
-          staticClass: "bca-label",
-          attrs: { "data-bca-label-type": "required" }
-        },
-        [_vm._v("必須")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", { attrs: { for: "nickname" } }, [_vm._v("ニックネーム")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", [_vm._v("グループ")]),
-      _vm._v("  "),
-      _c(
-        "span",
-        {
-          staticClass: "bca-label",
-          attrs: { "data-bca-label-type": "required" }
-        },
-        [_vm._v("必須")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", { attrs: { for: "email" } }, [_vm._v("Eメール")]),
-      _vm._v("  "),
-      _c(
-        "span",
-        {
-          staticClass: "bca-label",
-          attrs: { "data-bca-label-type": "required" }
-        },
-        [_vm._v("必須")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "col-head bca-form-table__label" }, [
-      _c("label", { attrs: { for: "password-1" } }, [_vm._v("パスワード")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -26332,6 +26641,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/js/components/UserForm.vue":
+/*!****************************************!*\
+  !*** ./src/js/components/UserForm.vue ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserForm.vue?vue&type=template&id=bbe5f30a& */ "./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a&");
+/* harmony import */ var _UserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserForm.vue?vue&type=script&lang=js& */ "./src/js/components/UserForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/js/components/UserForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/js/components/UserForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************!*\
+  !*** ./src/js/components/UserForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--0-0!../../../node_modules/vue-loader/lib??vue-loader-options!./UserForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/js/components/UserForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a&":
+/*!***********************************************************************!*\
+  !*** ./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a& ***!
+  \***********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./UserForm.vue?vue&type=template&id=bbe5f30a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/js/components/UserForm.vue?vue&type=template&id=bbe5f30a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserForm_vue_vue_type_template_id_bbe5f30a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./src/js/main.js":
 /*!************************!*\
   !*** ./src/js/main.js ***!
@@ -26380,6 +26758,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Login_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/Login.vue */ "./src/js/views/Login.vue");
 /* harmony import */ var _views_UserIndex_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/UserIndex.vue */ "./src/js/views/UserIndex.vue");
 /* harmony import */ var _views_UserEdit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/UserEdit.vue */ "./src/js/views/UserEdit.vue");
+/* harmony import */ var _views_UserAdd_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/UserAdd.vue */ "./src/js/views/UserAdd.vue");
 /**
  * baserCMS :  Based Website Development Project <https://basercms.net>
  * Copyright (c) baserCMS User Community <https://basercms.net/community/>
@@ -26389,6 +26768,7 @@ __webpack_require__.r(__webpack_exports__);
  * @since         5.0.0
  * @license       http://basercms.net/license/index.html MIT License
  */
+
 
 
 
@@ -26405,6 +26785,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
   }, {
     path: '/user_edit/:id',
     component: _views_UserEdit_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }, {
+    path: '/user_add',
+    component: _views_UserAdd_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   }]
 }));
 
@@ -26474,6 +26857,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_0910bbbb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_0910bbbb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/UserAdd.vue":
+/*!**********************************!*\
+  !*** ./src/js/views/UserAdd.vue ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserAdd.vue?vue&type=template&id=bc1bb7b0& */ "./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0&");
+/* harmony import */ var _UserAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserAdd.vue?vue&type=script&lang=js& */ "./src/js/views/UserAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UserAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/js/views/UserAdd.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/js/views/UserAdd.vue?vue&type=script&lang=js&":
+/*!***********************************************************!*\
+  !*** ./src/js/views/UserAdd.vue?vue&type=script&lang=js& ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--0-0!../../../node_modules/vue-loader/lib??vue-loader-options!./UserAdd.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0&":
+/*!*****************************************************************!*\
+  !*** ./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0& ***!
+  \*****************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./UserAdd.vue?vue&type=template&id=bc1bb7b0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/js/views/UserAdd.vue?vue&type=template&id=bc1bb7b0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserAdd_vue_vue_type_template_id_bc1bb7b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

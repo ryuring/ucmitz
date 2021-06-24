@@ -13,6 +13,7 @@ import Router from 'vue-router'
 import Login from '../views/Login.vue'
 import UserIndex from '../views/UserIndex.vue'
 import UserEdit from '../views/UserEdit.vue'
+import UserAdd from '../views/UserAdd.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ export default new Router({
         {
             path: '/user_edit/:id',
             component: UserEdit
+        },
+        {
+            path: '/user_add',
+            component: UserAdd
         }
     ]
 })
